@@ -1,21 +1,23 @@
-package com.prueba.mytodolist;
+package com.prueba.mytodolist.main;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 
-import com.prueba.mytodolist.database.AppDatabase;
+import com.prueba.mytodolist.AppExecutors;
+import com.prueba.mytodolist.R;
+import com.prueba.mytodolist.addTask.AddTaskActivity;
 import com.prueba.mytodolist.database.TaskEntry;
+import com.prueba.mytodolist.repository.TaskRepository;
 
 import java.util.List;
 
@@ -23,19 +25,18 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
 public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemClickListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-    private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
-    private AppDatabase mDb;
+    private TaskRepository taskRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRecyclerView = findViewById(R.id.recyclerViewTasks);
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerViewTasks);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new TaskAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
+        taskRepository = new TaskRepository(getApplicationContext());
 
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), VERTICAL);
         mRecyclerView.addItemDecoration(decoration);
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
                     public void run() {
                         int position = viewHolder.getAdapterPosition();
                         List<TaskEntry> tasks = mAdapter.getTasks();
-                        mDb.taskDao().deleteTask(tasks.get(position));
+                        taskRepository.deleteTask(tasks.get(position));
                     }
                 });
             }
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
             }
         });
 
-        mDb = AppDatabase.getInstance(getApplicationContext());
         setupViewModel();
     }
 
@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
             @Override
             public void onChanged(@Nullable List<TaskEntry> taskEntries) {
-                Log.d(TAG, "Updating list of tasks from LiveData in ViewModel");
                 mAdapter.setTasks(taskEntries);
             }
         });

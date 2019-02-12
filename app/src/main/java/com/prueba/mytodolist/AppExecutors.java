@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 
 public class AppExecutors {
 
-    // For Singleton instantiation
     private static final Object LOCK = new Object();
     private static AppExecutors sInstance;
     private final Executor diskIO;
@@ -22,6 +21,7 @@ public class AppExecutors {
         this.mainThread = mainThread;
     }
 
+    // Singleton instantiation
     public static AppExecutors getInstance() {
         if (sInstance == null) {
             synchronized (LOCK) {

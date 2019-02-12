@@ -1,4 +1,4 @@
-package com.prueba.mytodolist;
+package com.prueba.mytodolist.main;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.prueba.mytodolist.R;
 import com.prueba.mytodolist.database.TaskEntry;
 
 import java.text.SimpleDateFormat;
@@ -41,16 +42,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         int priority = taskEntry.getPriority();
         String updatedAt = dateFormat.format(taskEntry.getUpdatedAt());
 
-        //Set values
         holder.taskDescriptionView.setText(description);
         holder.updatedAtView.setText(updatedAt);
 
-        // Programmatically set the text and color for the priority TextView
         String priorityString = "" + priority; // converts int to String
         holder.priorityView.setText(priorityString);
 
         GradientDrawable priorityCircle = (GradientDrawable) holder.priorityView.getBackground();
-        // Get the appropriate background color based on the priority
         int priorityColor = getPriorityColor(priority);
         priorityCircle.setColor(priorityColor);
     }
@@ -99,10 +97,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         void onItemClickListener(int itemId);
     }
 
-    // Inner class for creating ViewHolders
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        // Class variables for the task description and priority TextViews
         TextView taskDescriptionView;
         TextView updatedAtView;
         TextView priorityView;

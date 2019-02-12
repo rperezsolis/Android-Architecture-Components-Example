@@ -1,12 +1,12 @@
-package com.prueba.mytodolist;
+package com.prueba.mytodolist.main;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.util.Log;
 
-import com.prueba.mytodolist.database.AppDatabase;
 import com.prueba.mytodolist.database.TaskEntry;
+import com.prueba.mytodolist.repository.TaskRepository;
 
 import java.util.List;
 
@@ -17,9 +17,11 @@ public class MainViewModel extends AndroidViewModel {
 
     public MainViewModel(Application application) {
         super(application);
-        AppDatabase database = AppDatabase.getInstance(this.getApplication());
+        //AppDatabase database = AppDatabase.getInstance(this.getApplication());
         Log.d(TAG, "Actively retrieving the tasks from the DataBase");
-        tasks = database.taskDao().loadAllTasks();
+        //tasks = database.taskDao().loadAllTasks();
+        TaskRepository taskRepository = new TaskRepository(application);
+        tasks = taskRepository.getAllTasks();
     }
 
     public LiveData<List<TaskEntry>> getTasks() {

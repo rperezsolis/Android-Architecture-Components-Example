@@ -1,4 +1,4 @@
-package com.prueba.mytodolist;
+package com.prueba.mytodolist.addTask;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -11,8 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
-import com.prueba.mytodolist.database.AppDatabase;
+import com.prueba.mytodolist.AppExecutors;
+import com.prueba.mytodolist.R;
 import com.prueba.mytodolist.database.TaskEntry;
+import com.prueba.mytodolist.repository.TaskRepository;
 
 import java.util.Date;
 
@@ -24,12 +26,11 @@ public class AddTaskActivity extends AppCompatActivity {
     public static final int PRIORITY_HIGH = 1;
     public static final int PRIORITY_MEDIUM = 2;
     public static final int PRIORITY_LOW = 3;
-    private static final String TAG = AddTaskActivity.class.getSimpleName();
     EditText mEditText;
     RadioGroup mRadioGroup;
     Button mButton;
     private int mTaskId = DEFAULT_TASK_ID;
-    private AppDatabase mDb;
+    private TaskRepository taskRepository;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         initViews();
 
-        mDb = AppDatabase.getInstance(getApplicationContext());
+        taskRepository = new TaskRepository(getApplicationContext());
 
         if (savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_TASK_ID)) {
             mTaskId = savedInstanceState.getInt(INSTANCE_TASK_ID, DEFAULT_TASK_ID);
@@ -48,7 +49,7 @@ public class AddTaskActivity extends AppCompatActivity {
             mButton.setText(R.string.update_button);
             if (mTaskId == DEFAULT_TASK_ID) {
                 mTaskId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
-                AddTaskViewModelFactory factory = new AddTaskViewModelFactory(mDb, mTaskId);
+                AddTaskViewModelFactory factory = taskRepository.setAddTaskViewModel(mTaskId, getApplication());
                 final AddTaskViewModel viewModel = ViewModelProviders.of(this, factory).get(AddTaskViewModel.class);
                 viewModel.getTask().observe(this, new Observer<TaskEntry>() {
                     @Override
@@ -97,10 +98,10 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (mTaskId == DEFAULT_TASK_ID) {
-                    mDb.taskDao().insertTask(task);
+                    taskRepository.insertTask(task);
                 } else {
                     task.setId(mTaskId);
-                    mDb.taskDao().updateTask(task);
+                    taskRepository.updateTask(task);
                 }
                 finish();
             }

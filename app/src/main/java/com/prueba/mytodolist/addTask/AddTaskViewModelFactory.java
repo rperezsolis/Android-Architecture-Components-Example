@@ -1,22 +1,21 @@
-package com.prueba.mytodolist;
+package com.prueba.mytodolist.addTask;
 
+import android.app.Application;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.prueba.mytodolist.database.AppDatabase;
-
 public class AddTaskViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final AppDatabase mDb;
     private final int mTaskId;
+    private final Application mApplication;
 
-    public AddTaskViewModelFactory(AppDatabase database, int taskId) {
-        mDb = database;
+    public AddTaskViewModelFactory(int taskId,  Application application) {
         mTaskId = taskId;
+        mApplication = application;
     }
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
-        return (T) new AddTaskViewModel(mDb, mTaskId);
+        return (T) new AddTaskViewModel(mTaskId, mApplication);
     }
 }
