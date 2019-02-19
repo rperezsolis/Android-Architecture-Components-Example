@@ -1,6 +1,14 @@
 # Android-Architecture-Components-Example
 To do list app which is implemented with android architecture components libraries (Room and lifecycle-aware components).
 
-The project implements Room, which is an ORM library to make easier all the database management operations. With operations a mean to the use of sql methods, such as query, insert, update and delete.
+The project implements Room, which is an ORM library to make easier all the database management operations. With operations I mean the use of sql methods, such as query, insert, update and delete.
 
 The project also implements LiveData and ViewModel, which are lifecycle-aware components that help us to notify our views when the database changes and to keep save our UI data on app rotations, respectively. 
+
+<div>
+  
+<img src="https://lh3.googleusercontent.com/hJdY5dExMGO_Wl8ANQa2V57zJ0IvWRxg3s_WPcDJraIOfIol5mL9i2Y7h-i-aFinsCQ74Ba8AP2oxaVPb2ikTAFZ4sWciz4KM84wuXU7zUcQWCTGuf-MXMEB2hic0Y226-H3eJbTrOHs-aXwIbBVhdbMnxP5xssW3mSywdNMyG9WX3Y2qY__-yubLKO2qzUi24u9G3FXuGOFcrdL5YlRrolx2FlG_8uYqqqj3Kp1kKAIEJqsxZzMIa1NJYy-2KBsRsgpEb_rbI9memFButjKdBYiHzuswLOfPPNbXKQdEeqdvY4WHwaguvhB_7-_-fIp_7K8idrCXvdWmDhRRO6bqHSe3y7xZQ5NpXVgzIsIcZXGs0EZgh2WrlpxK2_FGA9JOQ5vnryui6ALKHbntPiJifJElQaUyQyjUGK16ln9Z1MyaBa124pXLQLEKSnJQmdxBc4DStADhTzcSIIwv5widVfgOoIdY5VKAg3m4vUhauQT88VdChP-bI5l75rvhCObALgSC1O50AVrpVATt3iKoJTo0lqn7wsFhY_KB55mt1niaZEpB9hmvqfTiU5om9vdut-aC0l0Q2wfgB2y-KXgRC6K9QDe90aSYFo45OpoYVANLN3Zji5EKp8M8Oa717ZbCcx-bGhnNApxfi-_SaZ0eYK1IJNbigA=w313-h625-no" height="400" hspace="10">
+
+<img src="https://lh3.googleusercontent.com/XpGTSsnIAUkwOEo0rPF-0ffRmCbrAMHGFg1YMLNH1fiXcrIlhl9uC_f8z3LZpbnGV2rt_UO6iSsQ65xpG_pXQ4d0B7r6O-MHZiQ8NPLFIKd-shOUYNdtQEAAWoVuphQ9lrHLUsHz_UrMVUiDQ32-oQ4LMhQvwsczMgtkPqlskqEJUczX65b2u0ZW5kcsIAIb6LSdqfPKp1szXbWkmj0r1oZ3QaIooZ6wIPfZthZZ0kmgzJHPXbaKlEM-hddYGgzFu4gfxCSey2Z9lzG7og-Jc6sjCc21H1jR6Ni6xtV8BdB-SKtQHpIZIukdG0-dkJt_VKVCGT9Z4dD2wTILgF12cRLnd_-1x3aGl75nD8aHyN5LO5GanOwOEF2CahIgMrW2LOAjkTMX2ZfkNwecqKuOWX4mTzCxqp1WRxfddUAHtRnfJjXLSL9NeClDm75Si6LJftu-zXCg6xKcZYieXDsiJlPedbCSBRzCnvOR7f6z5EEEE9rLGVUtSAhOcusc-v6wLrBKe93am9gXWrNbM1cP3hKCFSg6Way9TnuuU5mTzLe4RykcuBDt3XihVEX4Sz-yF31DaeznpclFHmb3jtAohqW564_gTJEdcjivjMF9nc3sCDaVGuxqtab0YWRs254l0LSeaY9ZVv7rIkdUZgRajBPMuPiuU2g=w313-h625-no" height="400" hspace="10">
+
+</div>
