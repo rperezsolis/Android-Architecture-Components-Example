@@ -1,12 +1,10 @@
 package com.prueba.mytodolist.repository
 
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LiveData
-import com.prueba.mytodolist.addTask.AddTaskViewModelFactory
 import com.prueba.mytodolist.database.AppDatabase
 import com.prueba.mytodolist.database.TaskDao
-import com.prueba.mytodolist.database.TaskEntry
+import com.prueba.mytodolist.model.TaskEntry
 
 class TaskRepository(context: Context) {
 
@@ -35,9 +33,5 @@ class TaskRepository(context: Context) {
 
     fun deleteTask(taskEntry: TaskEntry) {
         taskDao.deleteTask(taskEntry)
-    }
-
-    fun setAddTaskViewModel(taskId: Int, application: Application): AddTaskViewModelFactory {
-        return AddTaskViewModelFactory(taskId, application)
     }
 }

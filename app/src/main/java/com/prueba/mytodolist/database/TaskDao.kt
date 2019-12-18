@@ -2,6 +2,7 @@ package com.prueba.mytodolist.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.prueba.mytodolist.model.TaskEntry
 
 //Interface with the corresponding Room annotations to call sql methods: query, insert, update and delete.
 

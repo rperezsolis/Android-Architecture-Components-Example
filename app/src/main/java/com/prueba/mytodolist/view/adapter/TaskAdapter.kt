@@ -1,4 +1,4 @@
-package com.prueba.mytodolist.main
+package com.prueba.mytodolist.view.adapter
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.prueba.mytodolist.R
-import com.prueba.mytodolist.database.TaskEntry
+import com.prueba.mytodolist.model.TaskEntry
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
