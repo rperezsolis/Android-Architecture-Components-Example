@@ -83,18 +83,18 @@ class AddOrUpdateTaskActivity : AppCompatActivity() {
     private fun getPriorityFromViews(): Int {
         var priority = 1
         when ((findViewById<RadioGroup>(R.id.radioGroup)).checkedRadioButtonId) {
-            R.id.radButton1 -> priority = PRIORITY_HIGH
-            R.id.radButton2 -> priority = PRIORITY_MEDIUM
-            R.id.radButton3 -> priority = PRIORITY_LOW
+            R.id.radioButton1 -> priority = PRIORITY_HIGH
+            R.id.radioButton2 -> priority = PRIORITY_MEDIUM
+            R.id.radioButton3 -> priority = PRIORITY_LOW
         }
         return priority
     }
 
     private fun setPriorityInViews(priority: Int) {
         when (priority) {
-            PRIORITY_HIGH -> (findViewById<RadioGroup>(R.id.radioGroup)).check(R.id.radButton1)
-            PRIORITY_MEDIUM -> (findViewById<RadioGroup>(R.id.radioGroup)).check(R.id.radButton2)
-            PRIORITY_LOW -> (findViewById<RadioGroup>(R.id.radioGroup)).check(R.id.radButton3)
+            PRIORITY_HIGH -> (findViewById<RadioGroup>(R.id.radioGroup)).check(R.id.radioButton1)
+            PRIORITY_MEDIUM -> (findViewById<RadioGroup>(R.id.radioGroup)).check(R.id.radioButton2)
+            PRIORITY_LOW -> (findViewById<RadioGroup>(R.id.radioGroup)).check(R.id.radioButton3)
         }
     }
 }
