@@ -1,14 +1,21 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'kotlin-android-extensions'
+
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
+    buildToolsVersion "29.0.0"
     defaultConfig {
-        applicationId "com.prueba.mytodolist"
-        minSdkVersion 19
-        targetSdkVersion 28
+        applicationId "com.rafaelperez.mytodolist"
+        minSdkVersion 21
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -20,19 +27,25 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
 
     // Android architecture components libraries
-    implementation "android.arch.persistence.room:runtime:1.1.1"
-    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+    implementation "androidx.room:room-runtime:2.2.2"
+    implementation "androidx.room:room-ktx:2.2.2"
+    kapt "androidx.room:room-compiler:2.2.2"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:2.1.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.1.0"
 
-    // Testing
+    //Testing
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation "androidx.room:room-testing:2.2.2"
 }
