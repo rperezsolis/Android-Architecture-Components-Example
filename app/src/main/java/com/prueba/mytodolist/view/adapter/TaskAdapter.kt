@@ -44,7 +44,7 @@ class TaskAdapter(context: Context, itemClickListener: ItemClickListener) : Recy
     }
 
     interface ItemClickListener {
-        fun onItemClickListener(itemId: Int)
+        fun onItemClickListener(itemId: Int, view: View)
     }
 
     inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -70,7 +70,7 @@ class TaskAdapter(context: Context, itemClickListener: ItemClickListener) : Recy
 
             itemView.setOnClickListener {
                 val itemId = taskEntry.id
-                mItemClickListener.onItemClickListener(itemId)
+                mItemClickListener.onItemClickListener(itemId, it)
             }
         }
     }
