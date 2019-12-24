@@ -10,10 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -42,8 +39,8 @@ class AddOrUpdateTaskFragment : Fragment() {
     private lateinit var mRadioGroup: RadioGroup
     private lateinit var mButtonSetDeadline: Button
     private lateinit var mTextDeadline: TextView
+    private lateinit var mButtonClearDeadline: ImageView
     private lateinit var mButtonSave: Button
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_task, container, false)
@@ -70,8 +67,10 @@ class AddOrUpdateTaskFragment : Fragment() {
         mRadioGroup = view.findViewById(R.id.radioGroup)
         mButtonSetDeadline = view.findViewById(R.id.buttonSetDeadline)
         mTextDeadline = view.findViewById(R.id.textViewDeadline)
+        mButtonClearDeadline = view.findViewById(R.id.clearDeadlineImageView)
         mButtonSave = view.findViewById(R.id.saveButton)
-        mButtonSetDeadline.setOnClickListener { onDeadlineClicked() }
+        mButtonSetDeadline.setOnClickListener { onAddDeadlineClicked() }
+        mButtonClearDeadline.setOnClickListener { onClearDeadlineClicked() }
         mButtonSave.setOnClickListener { onSaveButtonClicked(view) }
     }
 
@@ -93,13 +92,17 @@ class AddOrUpdateTaskFragment : Fragment() {
         }
         mEditTextDescription.setText(task.description)
         setPriorityInViews(task.priority, view)
-        mTextDeadline.text = when(task.deadline) {
-            null -> ""
-            else -> DateConverter.dateFormat.format(task.deadline)
+        when(task.deadline) {
+            null -> mTextDeadline.text = ""
+            else -> {
+                deadline = task.deadline
+                mTextDeadline.text = DateConverter.dateFormat.format(task.deadline)
+                mButtonClearDeadline.visibility = View.VISIBLE
+            }
         }
     }
 
-    private fun onDeadlineClicked() {
+    private fun onAddDeadlineClicked() {
         val currentDateTime = Calendar.getInstance()
         val startYear = currentDateTime.get(Calendar.YEAR)
         val startMonth = currentDateTime.get(Calendar.MONTH)
@@ -113,8 +116,15 @@ class AddOrUpdateTaskFragment : Fragment() {
                 pickedDateTime.set(year, month, day, hour, minute)
                 deadline =  pickedDateTime.time
                 mTextDeadline.text = DateConverter.dateFormat.format(deadline)
+                mButtonClearDeadline.visibility = View.VISIBLE
             }, startHour, startMinute, false).show()
         }, startYear, startMonth, startDay).show()
+    }
+
+    private fun onClearDeadlineClicked() {
+        deadline = null
+        mTextDeadline.text = ""
+        mButtonClearDeadline.visibility = View.GONE
     }
 
     private fun onSaveButtonClicked(view: View) {

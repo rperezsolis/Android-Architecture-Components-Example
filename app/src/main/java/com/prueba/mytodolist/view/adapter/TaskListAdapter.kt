@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,8 @@ import com.prueba.mytodolist.R
 import com.prueba.mytodolist.database.DateConverter
 import com.prueba.mytodolist.model.TaskEntry
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -53,12 +56,23 @@ class TaskListAdapter(context: Context, itemClickListener: ItemClickListener) : 
         private val taskDescriptionView: TextView = view.findViewById(R.id.descriptionTextView)
         private val taskDeadlineView: TextView = view.findViewById(R.id.deadlineTextView)
         private val priorityView: TextView = view.findViewById(R.id.priorityTextView)
+        private val deadlineWarning: ImageView = view.findViewById(R.id.deadlineWarningImageView)
 
         fun bind(taskEntry: TaskEntry) {
             taskDescriptionView.text = taskEntry.description
-            taskDeadlineView.text = when(taskEntry.deadline) {
-                null -> ""
-                else -> DateConverter.dateFormat.format(taskEntry.deadline)
+            when(taskEntry.deadline) {
+                null -> taskDeadlineView.text = ""
+                else -> {
+                    taskDeadlineView.text = DateConverter.dateFormat.format(taskEntry.deadline)
+                    val calendar = Calendar.getInstance()
+                    calendar.time = taskEntry.deadline
+                    calendar.add(Calendar.DAY_OF_YEAR, -1)
+                    if (Calendar.getInstance().time.after(calendar.time)) {
+                        deadlineWarning.visibility = View.VISIBLE
+                    } else {
+                        deadlineWarning.visibility = View.GONE
+                    }
+                }
             }
             priorityView.text = taskEntry.priority.toString()
             val priorityCircle: GradientDrawable = priorityView.background as GradientDrawable

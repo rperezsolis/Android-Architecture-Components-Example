@@ -52,4 +52,15 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1" />
 
+    <ImageView
+        android:id="@+id/deadlineWarningImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/deadlineTextView"
+        app:layout_constraintStart_toEndOf="@+id/deadlineTextView"
+        app:layout_constraintTop_toTopOf="@+id/deadlineTextView"
+        app:srcCompat="@drawable/ic_warning"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
