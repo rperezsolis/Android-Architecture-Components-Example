@@ -29,8 +29,8 @@ class AddOrUpdateTaskViewModel(taskId: Int, application: Application): ViewModel
         taskRepository.updateTask(task)
     }
 
-    fun insertOrUpdateTask(taskId: Int, description: String, priority: Int, date: Date) {
-        val task = TaskEntry(0, description, priority, date)
+    fun insertOrUpdateTask(taskId: Int, description: String, priority: Int, updatedAt: Date, deadline: Date?) {
+        val task = TaskEntry(0, description, priority, updatedAt, deadline)
         AppExecutors.getInstance()?.mDiskIO?.execute {
             if (taskId == DEFAULT_TASK_ID) {
                 insertTask(task)

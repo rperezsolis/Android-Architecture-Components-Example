@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import com.prueba.mytodolist.AppExecutors
 import com.prueba.mytodolist.model.TaskEntry
 import com.prueba.mytodolist.repository.TaskRepository
-import com.prueba.mytodolist.view.adapter.TaskAdapter
+import com.prueba.mytodolist.view.adapter.TaskListAdapter
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val tasks: LiveData<List<TaskEntry>>
@@ -20,7 +20,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return tasks
     }
 
-    fun deleteTask(position: Int, adapter: TaskAdapter) {
+    fun deleteTask(position: Int, adapter: TaskListAdapter) {
         AppExecutors.getInstance()?.mDiskIO?.execute {
             val tasks = adapter.getTasks()
             taskRepository.deleteTask(tasks[position])

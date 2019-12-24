@@ -10,20 +10,22 @@
 
 
     <TextView
-        android:id="@+id/taskDescription"
+        android:id="@+id/descriptionTextView"
         style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
+        android:layout_marginEnd="42dp"
         android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Description" />
 
 
     <TextView
-        android:id="@+id/taskUpdatedAt"
+        android:id="@+id/deadlineTextView"
         style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -31,8 +33,8 @@
         android:layout_marginBottom="6dp"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/taskDescription"
-        app:layout_constraintTop_toBottomOf="@+id/taskDescription"
+        app:layout_constraintStart_toStartOf="@+id/descriptionTextView"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView"
         tools:text="11/11/1111" />
 
     <TextView

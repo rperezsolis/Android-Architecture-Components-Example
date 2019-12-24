@@ -2,6 +2,8 @@ package com.prueba.mytodolist.view.fragment
 
 import android.app.Activity
 import android.app.Application
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +13,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.prueba.mytodolist.R
+import com.prueba.mytodolist.database.DateConverter
 import com.prueba.mytodolist.model.TaskEntry
 import com.prueba.mytodolist.viewModel.AddOrUpdateTaskViewModel
 import com.prueba.mytodolist.viewModel.AddOrUpdateTaskViewModelFactory
@@ -33,9 +37,12 @@ class AddOrUpdateTaskFragment : Fragment() {
 
     private lateinit var viewModel: AddOrUpdateTaskViewModel
     private var mTaskId = AddOrUpdateTaskViewModel.DEFAULT_TASK_ID
-    private lateinit var mEditText: EditText
+    private var deadline: Date? = null
+    private lateinit var mEditTextDescription: EditText
     private lateinit var mRadioGroup: RadioGroup
-    private lateinit var mButton: Button
+    private lateinit var mButtonSetDeadline: Button
+    private lateinit var mTextDeadline: TextView
+    private lateinit var mButtonSave: Button
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,7 +57,7 @@ class AddOrUpdateTaskFragment : Fragment() {
             mTaskId = savedInstanceState.getInt(INSTANCE_TASK_ID, AddOrUpdateTaskViewModel.DEFAULT_TASK_ID)
         }
         if (itemId != AddOrUpdateTaskViewModel.DEFAULT_TASK_ID) {
-            mButton.text = getString(R.string.update_button)
+            mButtonSave.text = getString(R.string.update_button)
             if (mTaskId == AddOrUpdateTaskViewModel.DEFAULT_TASK_ID) {
                 mTaskId = itemId
             }
@@ -59,10 +66,13 @@ class AddOrUpdateTaskFragment : Fragment() {
     }
 
     private fun initViews(view: View) {
-        mEditText = view.findViewById(R.id.editTextTaskDescription)
+        mEditTextDescription = view.findViewById(R.id.editTextTaskDescription)
         mRadioGroup = view.findViewById(R.id.radioGroup)
-        mButton = view.findViewById(R.id.saveButton)
-        mButton.setOnClickListener { onSaveButtonClicked(view) }
+        mButtonSetDeadline = view.findViewById(R.id.buttonSetDeadline)
+        mTextDeadline = view.findViewById(R.id.textViewDeadline)
+        mButtonSave = view.findViewById(R.id.saveButton)
+        mButtonSetDeadline.setOnClickListener { onDeadlineClicked() }
+        mButtonSave.setOnClickListener { onSaveButtonClicked(view) }
     }
 
     private fun setupViewModel(taskId: Int, view: View, application: Application) {
@@ -81,15 +91,37 @@ class AddOrUpdateTaskFragment : Fragment() {
         if (task == null) {
             return
         }
-        mEditText.setText(task.description)
+        mEditTextDescription.setText(task.description)
         setPriorityInViews(task.priority, view)
+        mTextDeadline.text = when(task.deadline) {
+            null -> ""
+            else -> DateConverter.dateFormat.format(task.deadline)
+        }
+    }
+
+    private fun onDeadlineClicked() {
+        val currentDateTime = Calendar.getInstance()
+        val startYear = currentDateTime.get(Calendar.YEAR)
+        val startMonth = currentDateTime.get(Calendar.MONTH)
+        val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
+        val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
+        val startMinute = currentDateTime.get(Calendar.MINUTE)
+
+        DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                val pickedDateTime = Calendar.getInstance()
+                pickedDateTime.set(year, month, day, hour, minute)
+                deadline =  pickedDateTime.time
+                mTextDeadline.text = DateConverter.dateFormat.format(deadline)
+            }, startHour, startMinute, false).show()
+        }, startYear, startMonth, startDay).show()
     }
 
     private fun onSaveButtonClicked(view: View) {
-        val description = mEditText.text.toString()
+        val description = mEditTextDescription.text.toString()
         val priority = getPriorityFromViews(view)
         val date = Date()
-        viewModel.insertOrUpdateTask(mTaskId, description, priority, date)
+        viewModel.insertOrUpdateTask(mTaskId, description, priority, date, deadline)
         hideKeyboardFrom(view.context, view)
         view.findNavController().popBackStack()
     }

@@ -9,12 +9,13 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.prueba.mytodolist.R
+import com.prueba.mytodolist.database.DateConverter
 import com.prueba.mytodolist.model.TaskEntry
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TaskAdapter(context: Context, itemClickListener: ItemClickListener) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class TaskListAdapter(context: Context, itemClickListener: ItemClickListener) : RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
 
     var mContext: Context = context
     var mItemClickListener: ItemClickListener = itemClickListener
@@ -49,16 +50,16 @@ class TaskAdapter(context: Context, itemClickListener: ItemClickListener) : Recy
 
     inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val DATE_FORMAT: String = "dd/MM/yy"
-        private val dateFormat: SimpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
-
-        private val taskDescriptionView: TextView = view.findViewById(R.id.taskDescription)
-        private val updatedAtView: TextView = view.findViewById(R.id.taskUpdatedAt)
+        private val taskDescriptionView: TextView = view.findViewById(R.id.descriptionTextView)
+        private val taskDeadlineView: TextView = view.findViewById(R.id.deadlineTextView)
         private val priorityView: TextView = view.findViewById(R.id.priorityTextView)
 
         fun bind(taskEntry: TaskEntry) {
             taskDescriptionView.text = taskEntry.description
-            updatedAtView.text = dateFormat.format(taskEntry.updatedAt)
+            taskDeadlineView.text = when(taskEntry.deadline) {
+                null -> ""
+                else -> DateConverter.dateFormat.format(taskEntry.deadline)
+            }
             priorityView.text = taskEntry.priority.toString()
             val priorityCircle: GradientDrawable = priorityView.background as GradientDrawable
             val priorityColor: Int = when(taskEntry.priority) {

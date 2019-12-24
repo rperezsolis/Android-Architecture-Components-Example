@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.prueba.mytodolist.R
 import com.prueba.mytodolist.model.TaskEntry
-import com.prueba.mytodolist.view.adapter.TaskAdapter
+import com.prueba.mytodolist.view.adapter.TaskListAdapter
 import com.prueba.mytodolist.viewModel.MainViewModel
 
-class TaskListFragment : Fragment(), TaskAdapter.ItemClickListener {
+class TaskListFragment : Fragment(), TaskListAdapter.ItemClickListener {
 
     private lateinit var mRecyclerView : RecyclerView
-    private lateinit var mAdapter: TaskAdapter
+    private lateinit var mAdapter: TaskListAdapter
     private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,8 +39,8 @@ class TaskListFragment : Fragment(), TaskAdapter.ItemClickListener {
         mRecyclerView = view.findViewById(R.id.recyclerViewTasksFragment)
         mRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = TaskAdapter(view.context, this@TaskListFragment)
-            mAdapter = adapter as TaskAdapter
+            adapter = TaskListAdapter(view.context, this@TaskListFragment)
+            mAdapter = adapter as TaskListAdapter
             val decoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
             mRecyclerView.addItemDecoration(decoration)
         }
@@ -52,9 +52,9 @@ class TaskListFragment : Fragment(), TaskAdapter.ItemClickListener {
 
     private fun setFloatingActionButton(view: View) {
         val floatingButton: View = view.findViewById(R.id.fab)
-        floatingButton.setOnClickListener { view ->
+        floatingButton.setOnClickListener {
             val action = TaskListFragmentDirections.actionTaskListFragmentToAddTaskFragment()
-            view.findNavController().navigate(action)
+            it.findNavController().navigate(action)
         }
     }
 
